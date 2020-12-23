@@ -1,5 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk.Web">
-
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
@@ -22,4 +22,5 @@
     <ProjectReference Include="..\Nintex.NetCore.Component.ShortUrlStorage.SqlServer\Nintex.NetCore.Component.ShortUrlStorage.SqlServer.csproj" />
     <ProjectReference Include="..\Nintext.NetCore.Component.ShorteningURL\Nintex.NetCore.Component.ShorteningURL.csproj" />
   </ItemGroup>
+ 
 </Project>

@@ -18,7 +18,7 @@ namespace Nintex.Services.ShorteningURLAPI.Controllers
         {
             _shorteningService = shorteningService;
         }
-        [HttpGet("{url}")]
+        [HttpGet]
         public async Task<string> ShorteningUrlAsync(string url)
         {
             return await _shorteningService.RegisterUrlAsync(url);
