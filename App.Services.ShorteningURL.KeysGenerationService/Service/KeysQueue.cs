@@ -15,7 +15,7 @@ namespace App.Services.ShorteningURL.KeysGenerationService.Service
         private readonly IKGS _kGS;
         private readonly IAsyncActionQueue _asyncActionQueue;
         private readonly object lock1 = new object();
-        private delegate void startEnqueueDelegate(int size);
+        private delegate void startEnqueueDelegate();
         private readonly startEnqueueDelegate _startEnqueue;
         public KeysQueue(IOptions<KGSConfig> options, IKGS kGS, IAsyncActionQueue asyncActionQueue)
         {
@@ -24,9 +24,9 @@ namespace App.Services.ShorteningURL.KeysGenerationService.Service
             _asyncActionQueue = asyncActionQueue;
             keys = new Queue<string>(_config.Capacity);
             EnqueueBatch(_config.Capacity);
-            _startEnqueue = delegate(int size) {
+            _startEnqueue = delegate() {
                 if(_config.LowThreshold>= keys.Count)
-                    EnqueueBatch(size);
+                    EnqueueBatch(_config.Capacity- keys.Count);
             };
         }
         private void EnqueueBatch(int size)
@@ -48,7 +48,7 @@ namespace App.Services.ShorteningURL.KeysGenerationService.Service
                 List<string> BatchKeys = new List<string>(_config.KeysBatchSize);
                 for (int i = 0; i < _config.KeysBatchSize; i++)
                     BatchKeys.Add(keys.Dequeue());
-                _asyncActionQueue.FireAndForget(_startEnqueue,_config.KeysBatchSize);
+                _asyncActionQueue.FireAndForget(_startEnqueue);
                 return BatchKeys;
             }
         }
